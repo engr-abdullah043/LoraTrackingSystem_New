@@ -1,0 +1,11 @@
+../Core/Src/sx1262_board.c:46:32:sx1262_board_validate_context	16	static
+../Core/Src/sx1262_board.c:56:13:sx1262_board_wait_while_busy	24	static
+../Core/Src/sx1262_board.c:71:13:sx1262_board_context	4	static
+../Core/Src/sx1262_board.c:76:22:sx1262_board_last_error	4	static
+../Core/Src/sx1262_board.c:81:9:sx1262_board_last_status_byte	4	static
+../Core/Src/sx1262_board.c:86:6:sx1262_board_take_dio1_event	16	static
+../Core/Src/sx1262_board.c:93:21:sx126x_hal_write	32	static
+../Core/Src/sx1262_board.c:129:21:sx126x_hal_read	32	static
+../Core/Src/sx1262_board.c:165:21:sx126x_hal_reset	24	static
+../Core/Src/sx1262_board.c:183:21:sx126x_hal_wakeup	24	static
+../Core/Src/sx1262_board.c:206:6:HAL_GPIO_EXTI_Rising_Callback	16	static

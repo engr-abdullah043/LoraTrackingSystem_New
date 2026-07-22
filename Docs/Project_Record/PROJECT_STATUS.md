@@ -49,7 +49,7 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 - Official Semtech SWSD003 SX126x driver v2.4.0 is pinned under `Firmware/Main_Controller/Drivers/SX126x` at commit `08912a2324bfc931224d368984b58b4a853078ad`.
 - `app_uart.*` provides bounded blocking USART1 text, CRLF, and hexadecimal output without `printf` retargeting.
 - `sx1262_board.*` implements Semtech HAL write/read/reset/wakeup functions, bounded BUSY waits, NSS handling, SPI error mapping, raw status capture, and the DIO1 event flag.
-- `sx1262_bringup.*` performs reset, RC standby, and status validation, then reports deterministic PASS/FAIL output.
+- `sx1262_bringup.*` performs reset, RC standby, and status validation. If the first command status is RFU (`0x01`), it performs one immediate second status read before reporting PASS/FAIL.
 - `main.c` calls bring-up once after all CubeMX peripheral initialization using protected `USER CODE` sections.
 - No frequency, modulation, packet, PA, IRQ-routing, TX, or RX configuration is present.
 
@@ -60,7 +60,7 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 - Fake-HAL test harnesses were written test-first and compile/link successfully as ARM ELFs.
 - The installed toolchain has no native C runner or ARM simulator, so those retained harnesses have not been executed.
 - Physical flash, UART transcript, SPI response, BUSY timing, and CubeMX-regeneration survival remain unverified.
-- Expected successful final UART line: `SX1262 BRING-UP: PASS`.
+- The next hardware run should print `Status #1`; if it is RFU (`0x01`), it will also print `Status #2`. Expected successful final line: `SX1262 BRING-UP: PASS`.
 
 ## Immediate Next Steps
 
@@ -76,4 +76,3 @@ After each meaningful change:
 
 1. Update this file if the current state or next steps changed.
 2. Append a dated entry to `CHANGELOG.md` describing the change, rationale, verification, and remaining work.
-

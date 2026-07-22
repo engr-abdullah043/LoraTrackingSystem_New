@@ -1,0 +1,6 @@
+../Core/Src/sx1262_bringup.c:7:32:sx1262_bringup_driver_failure	8	static
+../Core/Src/sx1262_bringup.c:20:20:sx1262_bringup_reason	16	static
+../Core/Src/sx1262_bringup.c:37:32:sx1262_bringup_report_failure	16	static
+../Core/Src/sx1262_bringup.c:48:13:sx1262_bringup_status_is_valid	16	static
+../Core/Src/sx1262_bringup.c:54:13:sx1262_bringup_report_status	16	static
+../Core/Src/sx1262_bringup.c:65:25:sx1262_bringup_run	16	static

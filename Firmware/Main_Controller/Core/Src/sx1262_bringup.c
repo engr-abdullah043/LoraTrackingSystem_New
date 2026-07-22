@@ -51,6 +51,17 @@ static bool sx1262_bringup_status_is_valid( const sx126x_chip_status_t* status )
            ( status->cmd_status == SX126X_CMD_STATUS_DATA_AVAILABLE );
 }
 
+static bool sx1262_bringup_report_status( const char* label, const sx126x_chip_status_t* status )
+{
+    return ( app_uart_write( label ) == APP_UART_OK ) &&
+           ( app_uart_write_hex8( sx1262_board_last_status_byte() ) == APP_UART_OK ) &&
+           ( app_uart_write( ", chip_mode=0x" ) == APP_UART_OK ) &&
+           ( app_uart_write_hex8( ( uint8_t ) status->chip_mode ) == APP_UART_OK ) &&
+           ( app_uart_write( ", cmd_status=0x" ) == APP_UART_OK ) &&
+           ( app_uart_write_hex8( ( uint8_t ) status->cmd_status ) == APP_UART_OK ) &&
+           ( app_uart_write_line( "" ) == APP_UART_OK );
+}
+
 sx1262_bringup_result_t sx1262_bringup_run( void )
 {
     const void*          context = sx1262_board_context();
@@ -88,15 +99,22 @@ sx1262_bringup_result_t sx1262_bringup_run( void )
         return sx1262_bringup_report_failure( failure );
     }
 
-    if( ( app_uart_write( "Status: 0x" ) != APP_UART_OK ) ||
-        ( app_uart_write_hex8( sx1262_board_last_status_byte() ) != APP_UART_OK ) ||
-        ( app_uart_write( ", chip_mode=0x" ) != APP_UART_OK ) ||
-        ( app_uart_write_hex8( ( uint8_t ) status.chip_mode ) != APP_UART_OK ) ||
-        ( app_uart_write( ", cmd_status=0x" ) != APP_UART_OK ) ||
-        ( app_uart_write_hex8( ( uint8_t ) status.cmd_status ) != APP_UART_OK ) ||
-        ( app_uart_write_line( "" ) != APP_UART_OK ) )
+    if( !sx1262_bringup_report_status( "Status #1: 0x", &status ) )
     {
         return SX1262_BRINGUP_UART_ERROR;
+    }
+
+    if( status.cmd_status == SX126X_CMD_STATUS_RFU )
+    {
+        if( sx126x_get_status( context, &status ) != SX126X_STATUS_OK )
+        {
+            failure = sx1262_bringup_driver_failure();
+            return sx1262_bringup_report_failure( failure );
+        }
+        if( !sx1262_bringup_report_status( "Status #2: 0x", &status ) )
+        {
+            return SX1262_BRINGUP_UART_ERROR;
+        }
     }
 
     if( !sx1262_bringup_status_is_valid( &status ) )
