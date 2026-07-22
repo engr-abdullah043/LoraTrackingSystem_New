@@ -47,8 +47,11 @@ static sx1262_bringup_result_t sx1262_bringup_report_failure( sx1262_bringup_res
 
 static bool sx1262_bringup_status_is_valid( const sx126x_chip_status_t* status )
 {
-    return ( status->chip_mode == SX126X_CHIP_MODE_STBY_RC ) &&
-           ( status->cmd_status == SX126X_CMD_STATUS_DATA_AVAILABLE );
+    const bool command_failed = ( status->cmd_status == SX126X_CMD_STATUS_CMD_TIMEOUT ) ||
+                                ( status->cmd_status == SX126X_CMD_STATUS_CMD_PROCESS_ERROR ) ||
+                                ( status->cmd_status == SX126X_CMD_STATUS_CMD_EXEC_FAILURE );
+
+    return ( status->chip_mode == SX126X_CHIP_MODE_STBY_RC ) && !command_failed;
 }
 
 static bool sx1262_bringup_report_status( const char* label, const sx126x_chip_status_t* status )
@@ -99,22 +102,9 @@ sx1262_bringup_result_t sx1262_bringup_run( void )
         return sx1262_bringup_report_failure( failure );
     }
 
-    if( !sx1262_bringup_report_status( "Status #1: 0x", &status ) )
+    if( !sx1262_bringup_report_status( "Status: 0x", &status ) )
     {
         return SX1262_BRINGUP_UART_ERROR;
-    }
-
-    if( status.cmd_status == SX126X_CMD_STATUS_RFU )
-    {
-        if( sx126x_get_status( context, &status ) != SX126X_STATUS_OK )
-        {
-            failure = sx1262_bringup_driver_failure();
-            return sx1262_bringup_report_failure( failure );
-        }
-        if( !sx1262_bringup_report_status( "Status #2: 0x", &status ) )
-        {
-            return SX1262_BRINGUP_UART_ERROR;
-        }
     }
 
     if( !sx1262_bringup_status_is_valid( &status ) )

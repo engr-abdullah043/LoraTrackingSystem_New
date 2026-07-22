@@ -2,6 +2,14 @@
 
 This is an append-only engineering record. Add the newest dated entry at the top, immediately below this introduction.
 
+## 2026-07-22 - Corrected SX1262 bring-up status validation
+
+- Removed the temporary second `GetStatus` diagnostic after hardware returned the same stable `0x22` response twice.
+- Bring-up now accepts RC standby when command status is RFU (`0x01`) or another non-error value.
+- Command timeout (`0x03`), processing error (`0x04`), and execution failure (`0x05`) still fail validation.
+- Build and hardware verification are pending and will be performed by the project owner.
+
+
 ## 2026-07-22 - Added second SX1262 status diagnostic
 
 - When the first status reports command status `0x01` (RFU), firmware now performs and prints one immediate second `GetStatus` read.
@@ -17,7 +25,7 @@ This is an append-only engineering record. Add the newest dated entry at the top
 - Vendored the official Semtech SWSD003 SX126x driver v2.4.0 at commit `08912a2324bfc931224d368984b58b4a853078ad`.
 - Added a bounded blocking USART1 logger without `printf` retargeting.
 - Added the STM32 board adapter for NSS, BUSY, reset, SPI read/write, wake-up, raw status capture, and DIO1 event flagging.
-- Added a one-shot reset ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ RC standby ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
+- Added a one-shot reset ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ RC standby ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
 - Integrated the bring-up call in protected CubeMX `USER CODE` sections after peripheral initialization.
 - Added retained fake-HAL test harnesses for the UART, board-adapter, and bring-up boundaries.
 
