@@ -135,3 +135,13 @@ This is an append-only engineering record. Add the newest dated entry at the top
 
 
 
+
+
+## 2026-07-22 - Bench communication reliability tuning
+
+- Changed both radios from SF12/CR4/8/LDRO-on to SF9/CR4/5/LDRO-off for faster and cleaner short-range testing.
+- Kept 915 MHz, 12-symbol preamble, explicit header, CRC, standard IQ, private sync word 0x12, and 0 dBm.
+- Added a 250 ms Tower pre-ACK guard while retaining the separate 6000 ms ACK-transmit timeout.
+- Updated both UART readiness messages to report the active settings.
+- Preserved the SF12/CR4/8/LDRO-on/+22 dBm profile for later maximum-range testing.
+- No build, flash, or Git operation was performed by the AI agent.

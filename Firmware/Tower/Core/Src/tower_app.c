@@ -9,7 +9,8 @@
 #include "main.h"
 #include "sx1262_bringup.h"
 
-#define TOWER_ACK_GUARD_MS ( 6000U )
+#define TOWER_ACK_DELAY_MS      ( 250U )
+#define TOWER_ACK_TX_TIMEOUT_MS ( 6000U )
 
 typedef enum
 {
@@ -85,6 +86,8 @@ static void handle_data( void )
         last_packet = message;
         have_last_packet = true;
     }
+    HAL_Delay( TOWER_ACK_DELAY_MS ); /* Let the Node complete its TX-to-RX transition. */
+
     if( !lora_protocol_format_ack( message.node_id, message.sequence, ack, sizeof( ack ), &ack_length ) ||
         ( lora_radio_start_tx( ack, ack_length ) != LORA_RADIO_OK ) )
     {
@@ -97,7 +100,7 @@ static void handle_data( void )
     ( void ) app_uart_write( ", sequence=" );
     ( void ) app_uart_write_u32( message.sequence );
     ( void ) app_uart_write_line( "" );
-    ack_deadline_ms = HAL_GetTick() + TOWER_ACK_GUARD_MS;
+    ack_deadline_ms = HAL_GetTick() + TOWER_ACK_TX_TIMEOUT_MS;
     state = TOWER_APP_WAIT_ACK_TX_DONE;
 }
 
@@ -121,7 +124,7 @@ bool tower_app_init( void )
         return false;
     }
     state = TOWER_APP_RECEIVING;
-    ( void ) app_uart_write_line( "TOWER LINK: LISTENING 915MHz SF12 BW125 CR4/8 0dBm" );
+    ( void ) app_uart_write_line( "TOWER LINK: LISTENING 915MHz SF9 BW125 CR4/5 0dBm ACK_DELAY=250ms" );
     return true;
 }
 

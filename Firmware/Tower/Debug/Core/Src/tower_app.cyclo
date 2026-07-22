@@ -1,6 +1,6 @@
-../Core/Src/tower_app.c:26:13:time_reached	1
-../Core/Src/tower_app.c:31:13:restore_receive	2
-../Core/Src/tower_app.c:44:13:log_packet	2
-../Core/Src/tower_app.c:58:13:handle_data	9
-../Core/Src/tower_app.c:104:6:tower_app_init	4
-../Core/Src/tower_app.c:128:6:tower_app_process	14
+../Core/Src/tower_app.c:27:13:time_reached	1
+../Core/Src/tower_app.c:32:13:restore_receive	2
+../Core/Src/tower_app.c:45:13:log_packet	2
+../Core/Src/tower_app.c:59:13:handle_data	9
+../Core/Src/tower_app.c:107:6:tower_app_init	4
+../Core/Src/tower_app.c:131:6:tower_app_process	14

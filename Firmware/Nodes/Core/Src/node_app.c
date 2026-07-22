@@ -118,7 +118,7 @@ bool node_app_init( void )
     sequence = 1U;
     attempt = 1U;
     state = NODE_APP_START_TX;
-    ( void ) app_uart_write_line( "NODE LINK: READY 915MHz SF12 BW125 CR4/8 0dBm" );
+    ( void ) app_uart_write_line( "NODE LINK: READY 915MHz SF9 BW125 CR4/5 0dBm" );
     return true;
 }
 

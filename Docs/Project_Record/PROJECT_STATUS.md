@@ -92,3 +92,13 @@ After each meaningful change:
 
 
 
+
+
+## Active Bench Reliability Profile (2026-07-22)
+
+- Node and Tower use 915 MHz, SF9, BW125, CR4/5, LDRO disabled, preamble 12, explicit header, payload CRC, standard IQ, private sync word 0x12, and 0 dBm.
+- Tower waits 250 ms before sending an ACK so the Node can reliably enter RX after TX completion.
+- Tower retains its separate 6000 ms ACK-transmit timeout.
+- Node keeps the existing 5-second ACK window and three-attempt retry policy.
+- Maximum-range settings remain reserved for later outdoor testing: SF12, BW125, CR4/8, LDRO enabled, and +22 dBm.
+- User performs all builds, flashing, and UART verification.

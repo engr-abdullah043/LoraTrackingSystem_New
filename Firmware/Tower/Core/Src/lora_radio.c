@@ -40,8 +40,8 @@ lora_radio_result_t lora_radio_init( void )
     const void* context = sx1262_board_context();
     const sx126x_pa_cfg_params_t pa = { .pa_duty_cycle = 0x04U, .hp_max = 0x07U, .device_sel = 0x00U,
                                          .pa_lut = 0x01U };
-    const sx126x_mod_params_lora_t modulation = { .sf = SX126X_LORA_SF12, .bw = SX126X_LORA_BW_125,
-                                                   .cr = SX126X_LORA_CR_4_8, .ldro = 1U };
+    const sx126x_mod_params_lora_t modulation = { .sf = SX126X_LORA_SF9, .bw = SX126X_LORA_BW_125,
+                                                   .cr = SX126X_LORA_CR_4_5, .ldro = 0U };
     sx126x_status_t result;
 
     HAL_GPIO_WritePin( RF_SW_SPI_GPIO_Port, RF_SW_SPI_Pin, GPIO_PIN_RESET );
