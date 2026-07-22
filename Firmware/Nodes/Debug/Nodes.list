@@ -2726,7 +2726,7 @@ bool node_app_init( void )
  80014d6:	4b04      	ldr	r3, [pc, #16]	@ (80014e8 <node_app_init+0x50>)
  80014d8:	2201      	movs	r2, #1
  80014da:	701a      	strb	r2, [r3, #0]
-    ( void ) app_uart_write_line( "NODE LINK: READY 915MHz SF12 BW125 CR4/8 +22dBm" );
+    ( void ) app_uart_write_line( "NODE LINK: READY 915MHz SF12 BW125 CR4/8 0dBm" );
  80014dc:	4807      	ldr	r0, [pc, #28]	@ (80014fc <node_app_init+0x64>)
  80014de:	f7ff f8cf 	bl	8000680 <app_uart_write_line>
     return true;
