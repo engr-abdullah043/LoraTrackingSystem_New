@@ -8,7 +8,10 @@ C_SRCS += \
 ../Core/Src/app_uart.c \
 ../Core/Src/gpio.c \
 ../Core/Src/icache.c \
+../Core/Src/lora_protocol.c \
+../Core/Src/lora_radio.c \
 ../Core/Src/main.c \
+../Core/Src/node_app.c \
 ../Core/Src/spi.c \
 ../Core/Src/stm32u5xx_hal_msp.c \
 ../Core/Src/stm32u5xx_it.c \
@@ -23,7 +26,10 @@ OBJS += \
 ./Core/Src/app_uart.o \
 ./Core/Src/gpio.o \
 ./Core/Src/icache.o \
+./Core/Src/lora_protocol.o \
+./Core/Src/lora_radio.o \
 ./Core/Src/main.o \
+./Core/Src/node_app.o \
 ./Core/Src/spi.o \
 ./Core/Src/stm32u5xx_hal_msp.o \
 ./Core/Src/stm32u5xx_it.o \
@@ -38,7 +44,10 @@ C_DEPS += \
 ./Core/Src/app_uart.d \
 ./Core/Src/gpio.d \
 ./Core/Src/icache.d \
+./Core/Src/lora_protocol.d \
+./Core/Src/lora_radio.d \
 ./Core/Src/main.d \
+./Core/Src/node_app.d \
 ./Core/Src/spi.d \
 ./Core/Src/stm32u5xx_hal_msp.d \
 ./Core/Src/stm32u5xx_it.d \
@@ -57,7 +66,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/app_uart.cyclo ./Core/Src/app_uart.d ./Core/Src/app_uart.o ./Core/Src/app_uart.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/icache.cyclo ./Core/Src/icache.d ./Core/Src/icache.o ./Core/Src/icache.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/spi.cyclo ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/spi.su ./Core/Src/stm32u5xx_hal_msp.cyclo ./Core/Src/stm32u5xx_hal_msp.d ./Core/Src/stm32u5xx_hal_msp.o ./Core/Src/stm32u5xx_hal_msp.su ./Core/Src/stm32u5xx_it.cyclo ./Core/Src/stm32u5xx_it.d ./Core/Src/stm32u5xx_it.o ./Core/Src/stm32u5xx_it.su ./Core/Src/sx1262_board.cyclo ./Core/Src/sx1262_board.d ./Core/Src/sx1262_board.o ./Core/Src/sx1262_board.su ./Core/Src/sx1262_bringup.cyclo ./Core/Src/sx1262_bringup.d ./Core/Src/sx1262_bringup.o ./Core/Src/sx1262_bringup.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32u5xx.cyclo ./Core/Src/system_stm32u5xx.d ./Core/Src/system_stm32u5xx.o ./Core/Src/system_stm32u5xx.su ./Core/Src/usart.cyclo ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su
+	-$(RM) ./Core/Src/app_uart.cyclo ./Core/Src/app_uart.d ./Core/Src/app_uart.o ./Core/Src/app_uart.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/icache.cyclo ./Core/Src/icache.d ./Core/Src/icache.o ./Core/Src/icache.su ./Core/Src/lora_protocol.cyclo ./Core/Src/lora_protocol.d ./Core/Src/lora_protocol.o ./Core/Src/lora_protocol.su ./Core/Src/lora_radio.cyclo ./Core/Src/lora_radio.d ./Core/Src/lora_radio.o ./Core/Src/lora_radio.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/node_app.cyclo ./Core/Src/node_app.d ./Core/Src/node_app.o ./Core/Src/node_app.su ./Core/Src/spi.cyclo ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/spi.su ./Core/Src/stm32u5xx_hal_msp.cyclo ./Core/Src/stm32u5xx_hal_msp.d ./Core/Src/stm32u5xx_hal_msp.o ./Core/Src/stm32u5xx_hal_msp.su ./Core/Src/stm32u5xx_it.cyclo ./Core/Src/stm32u5xx_it.d ./Core/Src/stm32u5xx_it.o ./Core/Src/stm32u5xx_it.su ./Core/Src/sx1262_board.cyclo ./Core/Src/sx1262_board.d ./Core/Src/sx1262_board.o ./Core/Src/sx1262_board.su ./Core/Src/sx1262_bringup.cyclo ./Core/Src/sx1262_bringup.d ./Core/Src/sx1262_bringup.o ./Core/Src/sx1262_bringup.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32u5xx.cyclo ./Core/Src/system_stm32u5xx.d ./Core/Src/system_stm32u5xx.o ./Core/Src/system_stm32u5xx.su ./Core/Src/usart.cyclo ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su
 
 .PHONY: clean-Core-2f-Src
 

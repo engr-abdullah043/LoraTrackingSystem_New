@@ -1,0 +1,9 @@
+../Core/Src/lora_protocol.c:13:13:node_id_is_valid	7
+../Core/Src/lora_protocol.c:31:13:sequence_is_valid	3
+../Core/Src/lora_protocol.c:36:13:encode_sequence	2
+../Core/Src/lora_protocol.c:46:13:decode_sequence	7
+../Core/Src/lora_protocol.c:70:6:lora_protocol_format_data	6
+../Core/Src/lora_protocol.c:87:6:lora_protocol_parse_data	9
+../Core/Src/lora_protocol.c:106:6:lora_protocol_format_ack	6
+../Core/Src/lora_protocol.c:122:6:lora_protocol_ack_matches	9
+../Core/Src/lora_protocol.c:136:10:lora_protocol_next_sequence	2

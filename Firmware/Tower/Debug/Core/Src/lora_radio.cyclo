@@ -1,0 +1,9 @@
+../Core/Src/lora_radio.c:22:28:map_status	3
+../Core/Src/lora_radio.c:32:28:set_packet_length	1
+../Core/Src/lora_radio.c:38:21:lora_radio_init	13
+../Core/Src/lora_radio.c:74:21:lora_radio_start_tx	8
+../Core/Src/lora_radio.c:95:28:start_rx	5
+../Core/Src/lora_radio.c:113:21:lora_radio_start_rx	2
+../Core/Src/lora_radio.c:119:21:lora_radio_start_continuous_rx	1
+../Core/Src/lora_radio.c:124:21:lora_radio_take_irq	6
+../Core/Src/lora_radio.c:139:21:lora_radio_read_packet	11
