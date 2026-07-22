@@ -25,6 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "sx1262_bringup.h"
 
 /* USER CODE END Includes */
 
@@ -93,6 +94,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_ICACHE_Init();
   /* USER CODE BEGIN 2 */
+  ( void ) sx1262_bringup_run();
 
   /* USER CODE END 2 */
 
@@ -196,3 +198,4 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+

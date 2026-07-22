@@ -8,14 +8,15 @@ This file is the current-state handoff for developers and AI agents. Keep it con
 
 ## Current Phase
 
-The minimal SX1262 reset/standby/status bring-up is implemented and verified on physical hardware. UART reports status `0x22` (`chip_mode=0x02`, RC standby; `cmd_status=0x01`) and `SX1262 BRING-UP: PASS`. RF configuration, transmit, and receive are the next implementation phase.
+The minimal SX1262 reset/standby/status bring-up is implemented in both Tower and Nodes firmware. Tower is verified on physical hardware with status `0x22` (`chip_mode=0x02`, RC standby; `cmd_status=0x01`) and `SX1262 BRING-UP: PASS`. Nodes now mirrors the same implementation and is pending owner build, flash, and UART verification. RF configuration, transmit, and receive are the next implementation phase.
 
 ## Hardware
 
 - MCU: STM32U585CIU6, UFQFPN48
 - LoRa module: Seeed Studio Wio-SX1262, 862-930 MHz, IPEX antenna connection
 - Module supply: 3.3 V typical; datasheet operating range is 1.8-3.6 V
-- CubeMX project: `Firmware/Tower/Tower.ioc`
+- Tower CubeMX project: `Firmware/Tower/Tower.ioc`
+- Nodes CubeMX project: `Firmware/Nodes/Nodes.ioc`
 - Module references: `Docs/Wio-SX1262_Module_Datasheet.pdf` and `Docs/Wio-SX1262-pin_map.png`
 
 ## LoRa Interface Mapping
@@ -46,11 +47,11 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 
 ## Firmware Implementation
 
-- Official Semtech SWSD003 SX126x driver v2.4.0 is pinned under `Firmware/Tower/Drivers/SX126x` at commit `08912a2324bfc931224d368984b58b4a853078ad`.
+- Official Semtech SWSD003 SX126x driver v2.4.0 is pinned under both `Firmware/Tower/Drivers/SX126x` and `Firmware/Nodes/Drivers/SX126x` at commit `08912a2324bfc931224d368984b58b4a853078ad`.
 - `app_uart.*` provides bounded blocking USART1 text, CRLF, and hexadecimal output without `printf` retargeting.
 - `sx1262_board.*` implements Semtech HAL write/read/reset/wakeup functions, bounded BUSY waits, NSS handling, SPI error mapping, raw status capture, and the DIO1 event flag.
 - `sx1262_bringup.*` performs reset, RC standby, and status validation. RC standby with RFU (`0x01`) is accepted; explicit timeout, processing-error, and execution-failure statuses are rejected.
-- `main.c` calls bring-up once after all CubeMX peripheral initialization using protected `USER CODE` sections.
+- Tower and Nodes `main.c` each call bring-up once after all CubeMX peripheral initialization using protected `USER CODE` sections.
 - No frequency, modulation, packet, PA, IRQ-routing, TX, or RX configuration is present.
 
 ## Verification Status
@@ -59,16 +60,17 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 - Build size: text 31,464 bytes; data 49 bytes; BSS 1,868 bytes.
 - Fake-HAL test harnesses were written test-first and compile/link successfully as ARM ELFs.
 - The installed toolchain has no native C runner or ARM simulator, so those retained harnesses have not been executed.
-- Physical flash, UART transcript, SPI response, BUSY timing, and CubeMX-regeneration survival remain unverified.
-- The next hardware run should report `Status: 0x22, chip_mode=0x02, cmd_status=0x01` followed by `SX1262 BRING-UP: PASS`.
+- Tower physical flash and UART/SPI bring-up: PASS with `Status: 0x22, chip_mode=0x02, cmd_status=0x01`.
+- Nodes build, flash, UART/SPI behavior, and CubeMX-regeneration survival remain pending owner verification.
+- The Nodes hardware run should report `Status: 0x22, chip_mode=0x02, cmd_status=0x01` followed by `SX1262 BRING-UP: PASS`.
 
 ## Immediate Next Steps
 
-1. Open the project in STM32CubeIDE, flash the board, and monitor USART1 at 115200 8-N-1 with no flow control.
-2. Capture the complete UART transcript and record PASS or the exact reported failure reason.
+1. Clean and build the Nodes project in STM32CubeIDE, flash the board, and monitor USART1 at 115200 8-N-1 with no flow control.
+2. Capture the Nodes UART transcript and record PASS or the exact reported failure reason.
 3. If needed, verify NSS, SCK, RESET, and BUSY with a logic analyzer.
-4. Regenerate once from CubeMX and confirm the `main.c` user sections and SX126x include path remain intact.
-5. Only after bring-up passes, design the regional RF, modulation, packet, PA, TCXO/RF-switch, IRQ, TX, and RX configuration.
+4. Regenerate Nodes once from CubeMX and confirm the `main.c` user sections and SX126x include path remain intact.
+5. Only after Nodes bring-up passes, design the regional RF, modulation, packet, PA, TCXO/RF-switch, IRQ, TX, and RX configuration.
 
 ## Maintenance Rule
 
@@ -76,4 +78,5 @@ After each meaningful change:
 
 1. Update this file if the current state or next steps changed.
 2. Append a dated entry to `CHANGELOG.md` describing the change, rationale, verification, and remaining work.
+
 

@@ -2,6 +2,15 @@
 
 This is an append-only engineering record. Add the newest dated entry at the top, immediately below this introduction.
 
+## 2026-07-22 - Mirrored working SX1262 bring-up into Nodes
+
+- Copied the Semtech SX126x driver, UART logger, board adapter, bring-up module, host-side tests, and HAL fakes from Tower into `Firmware/Nodes`.
+- Integrated `sx1262_bringup_run()` into the Nodes `main.c` CubeMX user sections.
+- Added `Drivers/SX126x/Inc` to the Nodes Debug and Release compiler include paths.
+- Preserved `Nodes.ioc`, Nodes project metadata, generated peripheral initialization, and linker scripts.
+- Copied LoRa sources were hash-compared with Tower and matched exactly.
+- Nodes build, flash, and UART verification are pending and will be performed by the project owner; no Git operations were performed.
+
 ## 2026-07-22 - Renamed STM32 firmware project to Tower
 
 - Renamed the STM32 firmware directory from `Firmware/Towers` to `Firmware/Tower`.
@@ -33,7 +42,7 @@ This is an append-only engineering record. Add the newest dated entry at the top
 - Vendored the official Semtech SWSD003 SX126x driver v2.4.0 at commit `08912a2324bfc931224d368984b58b4a853078ad`.
 - Added a bounded blocking USART1 logger without `printf` retargeting.
 - Added the STM32 board adapter for NSS, BUSY, reset, SPI read/write, wake-up, raw status capture, and DIO1 event flagging.
-- Added a one-shot reset ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ RC standby ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
+- Added a one-shot reset ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ RC standby ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
 - Integrated the bring-up call in protected CubeMX `USER CODE` sections after peripheral initialization.
 - Added retained fake-HAL test harnesses for the UART, board-adapter, and bring-up boundaries.
 
@@ -98,4 +107,5 @@ This is an append-only engineering record. Add the newest dated entry at the top
 ### Next
 
 - Re-review regenerated CubeMX output, then begin the minimal SX1262 driver/HAL integration.
+
 
