@@ -15,13 +15,13 @@
 ## Task 1: Add the pinned Semtech driver and provenance
 
 **Files:**
-- Create: `Firmware/Main_Controller/Drivers/SX126x/Inc/sx126x.h`
-- Create: `Firmware/Main_Controller/Drivers/SX126x/Inc/sx126x_hal.h`
-- Create: `Firmware/Main_Controller/Drivers/SX126x/Inc/sx126x_regs.h`
-- Create: `Firmware/Main_Controller/Drivers/SX126x/Src/sx126x.c`
-- Create: `Firmware/Main_Controller/Drivers/SX126x/LICENSE.txt`
-- Create: `Firmware/Main_Controller/Drivers/SX126x/SOURCE.md`
-- Modify: `Firmware/Main_Controller/.cproject`
+- Create: `Firmware/Tower/Drivers/SX126x/Inc/sx126x.h`
+- Create: `Firmware/Tower/Drivers/SX126x/Inc/sx126x_hal.h`
+- Create: `Firmware/Tower/Drivers/SX126x/Inc/sx126x_regs.h`
+- Create: `Firmware/Tower/Drivers/SX126x/Src/sx126x.c`
+- Create: `Firmware/Tower/Drivers/SX126x/LICENSE.txt`
+- Create: `Firmware/Tower/Drivers/SX126x/SOURCE.md`
+- Modify: `Firmware/Tower/.cproject`
 
 - [x] Copy only the four required driver source/header files and license verbatim from SWSD003 v2.4.0.
 - [x] Record repository URL, tag, and full commit hash in `SOURCE.md`.
@@ -29,35 +29,35 @@
 - [x] Verify provenance and includes:
 
 ```powershell
-rg -n "08912a2324bfc931224d368984b58b4a853078ad|v2.4.0" Firmware/Main_Controller/Drivers/SX126x/SOURCE.md
-rg -n "Drivers/SX126x/Inc" Firmware/Main_Controller/.cproject
+rg -n "08912a2324bfc931224d368984b58b4a853078ad|v2.4.0" Firmware/Tower/Drivers/SX126x/SOURCE.md
+rg -n "Drivers/SX126x/Inc" Firmware/Tower/.cproject
 ```
 
 Expected: source metadata is found and the include path appears in each configuration.
 
-- [x] Commit: `git add Firmware/Main_Controller/Drivers/SX126x Firmware/Main_Controller/.cproject && git commit -m "vendor Semtech SX126x driver v2.4.0"`
+- [x] Commit: `git add Firmware/Tower/Drivers/SX126x Firmware/Tower/.cproject && git commit -m "vendor Semtech SX126x driver v2.4.0"`
 
 ## Task 2: Implement and test the UART logger
 
 **Files:**
-- Create: `Firmware/Main_Controller/Core/Inc/app_uart.h`
-- Create: `Firmware/Main_Controller/Core/Src/app_uart.c`
-- Create: `Firmware/Main_Controller/Tests/test_app_uart.c`
-- Create: `Firmware/Main_Controller/Tests/fakes/usart.h`
+- Create: `Firmware/Tower/Core/Inc/app_uart.h`
+- Create: `Firmware/Tower/Core/Src/app_uart.c`
+- Create: `Firmware/Tower/Tests/test_app_uart.c`
+- Create: `Firmware/Tower/Tests/fakes/usart.h`
 
 - [x] Write a host test with a fake `HAL_UART_Transmit` that checks: text is sent through `huart1`, CRLF lines are exact, hex bytes render as two uppercase digits, null input fails, and HAL failure propagates.
 - [x] Run the test build first and confirm it fails because `app_uart` does not exist.
 - [x] Implement a blocking logger with bounded HAL timeout and explicit `APP_UART_OK`/`APP_UART_ERROR`; do not add `_write`, `printf`, `sprintf`, or heap use.
 - [x] Re-run the harness build and confirm it compiles and links; runtime execution remains pending a native runner or hardware.
-- [x] Commit: `git add Firmware/Main_Controller/Core/Inc/app_uart.h Firmware/Main_Controller/Core/Src/app_uart.c Firmware/Main_Controller/Tests && git commit -m "add bounded USART1 logger"`
+- [x] Commit: `git add Firmware/Tower/Core/Inc/app_uart.h Firmware/Tower/Core/Src/app_uart.c Firmware/Tower/Tests && git commit -m "add bounded USART1 logger"`
 
 ## Task 3: Implement and test the STM32 SX1262 board adapter
 
 **Files:**
-- Create: `Firmware/Main_Controller/Core/Inc/sx1262_board.h`
-- Create: `Firmware/Main_Controller/Core/Src/sx1262_board.c`
-- Create: `Firmware/Main_Controller/Tests/test_sx1262_board.c`
-- Create/Modify: HAL fakes under `Firmware/Main_Controller/Tests/fakes/`
+- Create: `Firmware/Tower/Core/Inc/sx1262_board.h`
+- Create: `Firmware/Tower/Core/Src/sx1262_board.c`
+- Create: `Firmware/Tower/Tests/test_sx1262_board.c`
+- Create/Modify: HAL fakes under `Firmware/Tower/Tests/fakes/`
 
 - [x] Write fake-HAL tests covering NSS idle/high behavior, BUSY-low success, BUSY timeout, SPI transmit/read failure, reset low/high timing, wake-up framing, and DIO1 flag set/take behavior.
 - [x] Run the tests first and confirm failure because the adapter does not exist.
@@ -67,14 +67,14 @@ Expected: source metadata is found and the include path appears in each configur
 - [x] Reset by driving RESET low for 1 ms, high, delaying 10 ms, then waiting for BUSY low. Wake with the Semtech GET_STATUS wake sequence and a bounded wait.
 - [x] Implement `HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)` so only `DIO1_Pin` sets a `volatile` flag; expose a take-and-clear function outside interrupt context.
 - [x] Re-run the harness build and confirm it compiles and links; runtime execution remains pending a native runner or hardware.
-- [x] Commit: `git add Firmware/Main_Controller/Core/Inc/sx1262_board.h Firmware/Main_Controller/Core/Src/sx1262_board.c Firmware/Main_Controller/Tests && git commit -m "add STM32 SX1262 board adapter"`
+- [x] Commit: `git add Firmware/Tower/Core/Inc/sx1262_board.h Firmware/Tower/Core/Src/sx1262_board.c Firmware/Tower/Tests && git commit -m "add STM32 SX1262 board adapter"`
 
 ## Task 4: Implement and test the bring-up state sequence
 
 **Files:**
-- Create: `Firmware/Main_Controller/Core/Inc/sx1262_bringup.h`
-- Create: `Firmware/Main_Controller/Core/Src/sx1262_bringup.c`
-- Create: `Firmware/Main_Controller/Tests/test_sx1262_bringup.c`
+- Create: `Firmware/Tower/Core/Inc/sx1262_bringup.h`
+- Create: `Firmware/Tower/Core/Src/sx1262_bringup.c`
+- Create: `Firmware/Tower/Tests/test_sx1262_bringup.c`
 
 - [x] Write tests using fake driver/logger boundaries for the successful order (`reset -> standby RC -> get status`) and for reset, BUSY, SPI, driver-status, invalid-chip-status, and UART-output failures.
 - [x] Run the tests first and confirm failure because bring-up does not exist.
@@ -82,20 +82,20 @@ Expected: source metadata is found and the include path appears in each configur
 - [x] Emit deterministic UART lines: boot banner, reset result, standby result, raw status byte plus decoded chip/command status, and final `SX1262 BRING-UP: PASS` or `SX1262 BRING-UP: FAIL (<reason>)`.
 - [x] Validate that the post-command chip mode is RC standby and that the Semtech command status is a successful/valid state; do not continue into RF configuration.
 - [x] Re-run the harness build and confirm all success/failure paths compile and link; runtime execution remains pending a native runner or hardware.
-- [x] Commit: `git add Firmware/Main_Controller/Core/Inc/sx1262_bringup.h Firmware/Main_Controller/Core/Src/sx1262_bringup.c Firmware/Main_Controller/Tests && git commit -m "add SX1262 UART bring-up sequence"`
+- [x] Commit: `git add Firmware/Tower/Core/Inc/sx1262_bringup.h Firmware/Tower/Core/Src/sx1262_bringup.c Firmware/Tower/Tests && git commit -m "add SX1262 UART bring-up sequence"`
 
 ## Task 5: Integrate through CubeMX-safe user sections
 
 **Files:**
-- Modify: `Firmware/Main_Controller/Core/Src/main.c`
-- Modify: `Firmware/Main_Controller/.cproject` only if source discovery/include settings require it
+- Modify: `Firmware/Tower/Core/Src/main.c`
+- Modify: `Firmware/Tower/.cproject` only if source discovery/include settings require it
 
 - [x] Add `#include "sx1262_bringup.h"` inside `USER CODE BEGIN Includes`.
 - [x] Call `sx1262_bringup_run()` once inside `USER CODE BEGIN 2`, after `MX_GPIO_Init`, `MX_SPI1_Init`, `MX_USART1_UART_Init`, and `MX_ICACHE_Init`.
 - [x] Leave the generated infinite loop empty for this milestone; errors must have already been reported and must not hang in a hidden retry loop.
 - [ ] Regenerate once from CubeMX and verify the user-section integration survives.
 - [x] Clean and build Debug in STM32CubeIDE. Expected: zero errors and zero new warnings; new app and driver `.c` files appear in build output.
-- [x] Commit: `git add Firmware/Main_Controller/Core/Src/main.c Firmware/Main_Controller/.cproject && git commit -m "run SX1262 bring-up at startup"`
+- [x] Commit: `git add Firmware/Tower/Core/Src/main.c Firmware/Tower/.cproject && git commit -m "run SX1262 bring-up at startup"`
 
 ## Task 6: Hardware smoke test and durable project record
 
@@ -118,12 +118,12 @@ SX1262 BRING-UP: PASS
 - [x] Run final repository checks:
 
 ```powershell
-rg -n "sx1262_bringup_run|HAL_GPIO_EXTI_Rising_Callback|SX1262 BRING-UP" Firmware/Main_Controller/Core
-rg -n "Drivers/SX126x/Inc" Firmware/Main_Controller/.cproject
+rg -n "sx1262_bringup_run|HAL_GPIO_EXTI_Rising_Callback|SX1262 BRING-UP" Firmware/Tower/Core
+rg -n "Drivers/SX126x/Inc" Firmware/Tower/.cproject
 git status --short
 ```
 
-- [x] Commit: `git add Docs/Project_Record Firmware/Main_Controller && git commit -m "document SX1262 bring-up verification"`
+- [x] Commit: `git add Docs/Project_Record Firmware/Tower && git commit -m "document SX1262 bring-up verification"`
 
 ## Verification Note
 
@@ -137,3 +137,4 @@ The retained fake-HAL harnesses compile and link as ARM ELFs. They could not be 
 - [x] UART reports a bounded, explicit result.
 - [ ] Hardware reports PASS, or the exact hardware blocker is recorded without claiming completion.
 - [x] No TX/RX or regional RF parameters were introduced.
+

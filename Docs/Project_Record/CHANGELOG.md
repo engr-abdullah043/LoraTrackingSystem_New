@@ -2,6 +2,14 @@
 
 This is an append-only engineering record. Add the newest dated entry at the top, immediately below this introduction.
 
+## 2026-07-22 - Renamed STM32 firmware project to Tower
+
+- Renamed the STM32 firmware directory from `Firmware/Towers` to `Firmware/Tower`.
+- Renamed the CubeMX project to `Tower.ioc` and the CubeIDE project/debug configuration to `Tower`.
+- Updated internal build, launch, and documentation paths from `Main_Controller` to `Tower`.
+- Recorded successful physical bring-up output: status `0x22` and `SX1262 BRING-UP: PASS`.
+- No firmware behavior was changed; build and regeneration will be performed by the project owner.
+
 ## 2026-07-22 - Corrected SX1262 bring-up status validation
 
 - Removed the temporary second `GetStatus` diagnostic after hardware returned the same stable `0x22` response twice.
@@ -25,7 +33,7 @@ This is an append-only engineering record. Add the newest dated entry at the top
 - Vendored the official Semtech SWSD003 SX126x driver v2.4.0 at commit `08912a2324bfc931224d368984b58b4a853078ad`.
 - Added a bounded blocking USART1 logger without `printf` retargeting.
 - Added the STM32 board adapter for NSS, BUSY, reset, SPI read/write, wake-up, raw status capture, and DIO1 event flagging.
-- Added a one-shot reset ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ RC standby ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
+- Added a one-shot reset ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ RC standby ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
 - Integrated the bring-up call in protected CubeMX `USER CODE` sections after peripheral initialization.
 - Added retained fake-HAL test harnesses for the UART, board-adapter, and bring-up boundaries.
 
@@ -90,3 +98,4 @@ This is an append-only engineering record. Add the newest dated entry at the top
 ### Next
 
 - Re-review regenerated CubeMX output, then begin the minimal SX1262 driver/HAL integration.
+
