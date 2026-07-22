@@ -2,6 +2,33 @@
 
 This is an append-only engineering record. Add the newest dated entry at the top, immediately below this introduction.
 
+
+## 2026-07-22 - SX1262 UART bring-up implemented
+
+### Changes
+
+- Vendored the official Semtech SWSD003 SX126x driver v2.4.0 at commit `08912a2324bfc931224d368984b58b4a853078ad`.
+- Added a bounded blocking USART1 logger without `printf` retargeting.
+- Added the STM32 board adapter for NSS, BUSY, reset, SPI read/write, wake-up, raw status capture, and DIO1 event flagging.
+- Added a one-shot reset Ã¢â€ â€™ RC standby Ã¢â€ â€™ status bring-up coordinator with deterministic UART PASS/FAIL reporting.
+- Integrated the bring-up call in protected CubeMX `USER CODE` sections after peripheral initialization.
+- Added retained fake-HAL test harnesses for the UART, board-adapter, and bring-up boundaries.
+
+### Verification
+
+- Each harness was created before its production module and first failed because the interface was absent.
+- All harnesses compile and link as ARM test ELFs; execution is pending because no native C runner or ARM simulator is installed.
+- STM32CubeIDE 2.2.0 headless clean Debug build passed with 0 errors and 0 warnings.
+- Final build size: text 31,464 bytes; data 49 bytes; BSS 1,868 bytes.
+- Generated Debug artifacts were removed/restored after verification and were not committed.
+
+### Remaining
+
+- Flash the board and capture USART1 output at 115200 8-N-1.
+- Confirm `SX1262 BRING-UP: PASS`, or record the exact BUSY/SPI/status failure.
+- Verify CubeMX regeneration preserves the user sections and SX126x include path.
+- RF configuration, transmit, and receive remain intentionally unimplemented.
+
 ## 2026-07-22 - CubeMX LoRa interface configuration verified
 
 ### Changes verified

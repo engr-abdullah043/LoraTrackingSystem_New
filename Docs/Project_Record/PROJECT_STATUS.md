@@ -8,7 +8,7 @@ This file is the current-state handoff for developers and AI agents. Keep it con
 
 ## Current Phase
 
-STM32CubeMX LoRa interface configuration is statically verified. No LoRa driver or application behavior has been implemented yet.
+The minimal SX1262 reset/standby/status bring-up is implemented on branch `feature/sx1262-uart-bringup` and passes a clean STM32CubeIDE Debug build. Flashing and UART/SPI verification on physical hardware are still pending. RF configuration, transmit, and receive are intentionally out of scope for this milestone.
 
 ## Hardware
 
@@ -22,14 +22,14 @@ STM32CubeMX LoRa interface configuration is statically verified. No LoRa driver 
 
 | Module signal | STM32 pin | STM32 configuration | Signal direction relative to STM32 | Status |
 |---|---:|---|---|---|
-| RF_SW | PA0 | GPIO output, push-pull, initial low | Output | Direction verified |
-| NSS | PA1 | GPIO output, push-pull, initial high | Output | Verified |
-| BUSY | PA2 | GPIO input, no pull | Input | Verified |
-| NRST | PA3 | GPIO output, push-pull, initial high | Output | Verified |
-| DIO1 | PA4 | Rising-edge EXTI4 input, no pull | Input | Verified |
-| SCK | PA5 | SPI1_SCK, AF5, high speed | Output | Verified |
-| MISO | PA6 | SPI1_MISO, AF5, high speed | Input | Verified |
-| MOSI | PA7 | SPI1_MOSI, AF5, high speed | Output | Verified |
+| RF_SW | PA0 | GPIO output, push-pull, initial low | Output | Direction verified; unused by bring-up |
+| NSS | PA1 | GPIO output, push-pull, initial high | Output | Implemented |
+| BUSY | PA2 | GPIO input, no pull | Input | Implemented with 100 ms timeout |
+| NRST | PA3 | GPIO output, push-pull, initial high | Output | Implemented |
+| DIO1 | PA4 | Rising-edge EXTI4 input, no pull | Input | ISR flag implemented |
+| SCK | PA5 | SPI1_SCK, AF5, high speed | Output | Implemented |
+| MISO | PA6 | SPI1_MISO, AF5, high speed | Input | Implemented |
+| MOSI | PA7 | SPI1_MOSI, AF5, high speed | Output | Implemented |
 
 Power and ground must be wired to the module's 3V3 and GND connections. The SMD radio module VCC has a 3.9 V absolute maximum; any 5 V header on an adapter board must not be confused with the module's VCC.
 
@@ -40,23 +40,35 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 - PA5-PA7 use high GPIO speed and no internal pull.
 - PA4/DIO1 is a no-pull, rising-edge EXTI4 input with its NVIC interrupt enabled.
 - PA2/BUSY is a normal GPIO input with no pull.
-- PA1/NSS is a GPIO output that starts high and will be controlled by the driver.
+- PA1/NSS is a GPIO output that starts high and is controlled by the board adapter.
+- USART1 uses PA9/PA10 at 115200 baud, 8 data bits, no parity, and 1 stop bit.
 - CubeMX generates `SPI_NSS_PULSE_ENABLE`, but this does not drive PA1 because SPI1 uses software NSS.
 
-## Verification Notes
+## Firmware Implementation
 
-- The supplied Wio-SX1262 datasheet identifies BUSY as a module output and DIO1 as the generic IRQ line.
-- NSS and NRST are driven by the host MCU.
-- The module pin table marks RF_SW as a host-driven input, but its footnote says RF switching is determined by the SX1262's internally connected DIO2. Confirm its intended use before implementing RF switching.
-- The Semtech SX1261/SX1262 SPI interface uses mode 0, 8-bit command/data bytes, and supports SCK up to 16 MHz.
-- This review is static configuration verification, not yet a build, flash, electrical, or communication test.
+- Official Semtech SWSD003 SX126x driver v2.4.0 is pinned under `Firmware/Main_Controller/Drivers/SX126x` at commit `08912a2324bfc931224d368984b58b4a853078ad`.
+- `app_uart.*` provides bounded blocking USART1 text, CRLF, and hexadecimal output without `printf` retargeting.
+- `sx1262_board.*` implements Semtech HAL write/read/reset/wakeup functions, bounded BUSY waits, NSS handling, SPI error mapping, raw status capture, and the DIO1 event flag.
+- `sx1262_bringup.*` performs reset, RC standby, and status validation, then reports deterministic PASS/FAIL output.
+- `main.c` calls bring-up once after all CubeMX peripheral initialization using protected `USER CODE` sections.
+- No frequency, modulation, packet, PA, IRQ-routing, TX, or RX configuration is present.
+
+## Verification Status
+
+- STM32CubeIDE 2.2.0 headless clean Debug build: PASS, 0 errors and 0 warnings.
+- Build size: text 31,464 bytes; data 49 bytes; BSS 1,868 bytes.
+- Fake-HAL test harnesses were written test-first and compile/link successfully as ARM ELFs.
+- The installed toolchain has no native C runner or ARM simulator, so those retained harnesses have not been executed.
+- Physical flash, UART transcript, SPI response, BUSY timing, and CubeMX-regeneration survival remain unverified.
+- Expected successful final UART line: `SX1262 BRING-UP: PASS`.
 
 ## Immediate Next Steps
 
-1. Implement a minimal SX1262 hardware-abstraction layer: NSS, reset, BUSY wait, SPI transfer, and DIO1 callback/flag.
-2. Add the minimum SX1262 command layer needed to reset the radio, enter standby, and read device status.
-3. Build and flash a non-RF hardware smoke test that confirms BUSY behavior and valid SPI responses.
-4. Configure RF frequency, packet type, modulation, PA, DIO IRQ routing, and TCXO control before attempting transmit/receive.
+1. Open the project in STM32CubeIDE, flash the board, and monitor USART1 at 115200 8-N-1 with no flow control.
+2. Capture the complete UART transcript and record PASS or the exact reported failure reason.
+3. If needed, verify NSS, SCK, RESET, and BUSY with a logic analyzer.
+4. Regenerate once from CubeMX and confirm the `main.c` user sections and SX126x include path remain intact.
+5. Only after bring-up passes, design the regional RF, modulation, packet, PA, TCXO/RF-switch, IRQ, TX, and RX configuration.
 
 ## Maintenance Rule
 
