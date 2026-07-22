@@ -1,9 +1,9 @@
 ../Core/Src/lora_radio.c:22:28:map_status	16	static
 ../Core/Src/lora_radio.c:32:28:set_packet_length	16	static
 ../Core/Src/lora_radio.c:38:21:lora_radio_init	24	static
-../Core/Src/lora_radio.c:74:21:lora_radio_start_tx	32	static
-../Core/Src/lora_radio.c:95:28:start_rx	32	static
-../Core/Src/lora_radio.c:113:21:lora_radio_start_rx	16	static
-../Core/Src/lora_radio.c:119:21:lora_radio_start_continuous_rx	8	static
-../Core/Src/lora_radio.c:124:21:lora_radio_take_irq	24	static
-../Core/Src/lora_radio.c:139:21:lora_radio_read_packet	32	static
+../Core/Src/lora_radio.c:77:21:lora_radio_start_tx	32	static
+../Core/Src/lora_radio.c:98:28:start_rx	32	static
+../Core/Src/lora_radio.c:116:21:lora_radio_start_rx	16	static
+../Core/Src/lora_radio.c:122:21:lora_radio_start_continuous_rx	8	static
+../Core/Src/lora_radio.c:127:21:lora_radio_take_irq	24	static
+../Core/Src/lora_radio.c:142:21:lora_radio_read_packet	32	static

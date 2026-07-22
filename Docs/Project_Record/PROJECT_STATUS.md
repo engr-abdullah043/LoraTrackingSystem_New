@@ -58,6 +58,7 @@ Power and ground must be wired to the module's 3V3 and GND connections. The SMD 
 
 - Profile: 915 MHz, SF12, BW125, CR4/8, LDRO, explicit header, CRC, private sync word `0x12`, and +22 dBm.
 - DIO2 controls the RF switch automatically; PA0 `RF_SW` remains low.
+- DIO3 supplies the module's active TCXO at 3.0 V with a 5 ms startup timeout, as required by the Wio-SX1262 hardware.
 - Nodes sends `NODE01|I am alive|NNNNNN`, waits 5 seconds for `ACK|NODE01|NNNNNN`, and makes three total attempts.
 - New transactions begin 10 seconds after the previous transaction completes.
 - Tower receives continuously, reports RSSI/SNR, acknowledges valid packets, and acknowledges duplicates without accepting them twice.
@@ -87,6 +88,7 @@ After each meaningful change:
 
 1. Update this file if the current state or next steps changed.
 2. Append a dated entry to `CHANGELOG.md` describing the change, rationale, verification, and remaining work.
+
 
 
 

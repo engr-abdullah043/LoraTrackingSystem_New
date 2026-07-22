@@ -121,7 +121,7 @@ bool tower_app_init( void )
         return false;
     }
     state = TOWER_APP_RECEIVING;
-    ( void ) app_uart_write_line( "TOWER LINK: LISTENING 915MHz SF12 BW125 CR4/8 +22dBm" );
+    ( void ) app_uart_write_line( "TOWER LINK: LISTENING 915MHz SF12 BW125 CR4/8 0dBm" );
     return true;
 }
 

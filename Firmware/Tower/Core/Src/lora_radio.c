@@ -51,6 +51,9 @@ lora_radio_result_t lora_radio_init( void )
     if( result != SX126X_STATUS_OK ) return map_status( result );
     result = sx126x_set_dio2_as_rf_sw_ctrl( context, true );
     if( result != SX126X_STATUS_OK ) return map_status( result );
+    result = sx126x_set_dio3_as_tcxo_ctrl( context, SX126X_TCXO_CTRL_3_0V,
+                                           sx126x_convert_timeout_in_ms_to_rtc_step( 5U ) );
+    if( result != SX126X_STATUS_OK ) return map_status( result );
     result = sx126x_cal_img( context, 0xE1U, 0xE9U );
     if( result != SX126X_STATUS_OK ) return map_status( result );
     result = sx126x_set_pkt_type( context, SX126X_PKT_TYPE_LORA );
@@ -59,7 +62,7 @@ lora_radio_result_t lora_radio_init( void )
     if( result != SX126X_STATUS_OK ) return map_status( result );
     result = sx126x_set_pa_cfg( context, &pa );
     if( result != SX126X_STATUS_OK ) return map_status( result );
-    result = sx126x_set_tx_params( context, 22, SX126X_RAMP_200_US );
+    result = sx126x_set_tx_params( context, 0, SX126X_RAMP_200_US );
     if( result != SX126X_STATUS_OK ) return map_status( result );
     result = sx126x_set_lora_sync_word( context, LORA_PRIVATE_SYNC_WORD );
     if( result != SX126X_STATUS_OK ) return map_status( result );
@@ -158,4 +161,5 @@ lora_radio_result_t lora_radio_read_packet( uint8_t* payload, uint8_t capacity, 
     status->snr_db = packet_status.snr_pkt_in_db;
     return LORA_RADIO_OK;
 }
+
 
