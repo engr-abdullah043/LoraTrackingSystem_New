@@ -57,12 +57,19 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define sx_SCK_Pin GPIO_PIN_1
+#define RF_SW_SPI_Pin GPIO_PIN_0
+#define RF_SW_SPI_GPIO_Port GPIOA
+#define NSS_SPI_Pin GPIO_PIN_1
+#define NSS_SPI_GPIO_Port GPIOA
+#define BUSY_LoRa_Pin GPIO_PIN_2
+#define BUSY_LoRa_GPIO_Port GPIOA
+#define RST_Lora_Pin GPIO_PIN_3
+#define RST_Lora_GPIO_Port GPIOA
+#define DIO1_Pin GPIO_PIN_4
+#define DIO1_GPIO_Port GPIOA
+#define DIO1_EXTI_IRQn EXTI4_IRQn
+#define sx_SCK_Pin GPIO_PIN_5
 #define sx_SCK_GPIO_Port GPIOA
-#define GPS_TX_Pin GPIO_PIN_2
-#define GPS_TX_GPIO_Port GPIOA
-#define GPS_RX_Pin GPIO_PIN_3
-#define GPS_RX_GPIO_Port GPIOA
 #define sx_MISO_Pin GPIO_PIN_6
 #define sx_MISO_GPIO_Port GPIOA
 #define sx_MOSI_Pin GPIO_PIN_7
@@ -71,6 +78,8 @@ void Error_Handler(void);
 #define TTL_TX_GPIO_Port GPIOA
 #define TTL_RX_Pin GPIO_PIN_10
 #define TTL_RX_GPIO_Port GPIOA
+#define GPS_RX_Pin GPIO_PIN_15
+#define GPS_RX_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
