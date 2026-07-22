@@ -1,0 +1,16 @@
+#ifndef SX1262_BRINGUP_H
+#define SX1262_BRINGUP_H
+
+typedef enum
+{
+    SX1262_BRINGUP_OK = 0,
+    SX1262_BRINGUP_UART_ERROR,
+    SX1262_BRINGUP_BUSY_TIMEOUT,
+    SX1262_BRINGUP_SPI_ERROR,
+    SX1262_BRINGUP_DRIVER_ERROR,
+    SX1262_BRINGUP_INVALID_STATUS
+} sx1262_bringup_result_t;
+
+sx1262_bringup_result_t sx1262_bringup_run( void );
+
+#endif
