@@ -1,0 +1,4 @@
+../Core/Src/app_uart.c:9:26:app_uart_write_buffer	16	static
+../Core/Src/app_uart.c:24:19:app_uart_write	24	static
+../Core/Src/app_uart.c:40:19:app_uart_write_line	16	static
+../Core/Src/app_uart.c:51:19:app_uart_write_hex8	24	static
